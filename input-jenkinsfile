@@ -1,0 +1,26 @@
+pipeline {
+    environment {
+        Name = 'Abhishek'
+        Location = 'Bangalore'
+        User_name = "$BUILD_USER"
+    }
+    agent any
+    stages {
+        stage ("Build") {
+            input {
+                message "Press okay to continue?"
+                ok "Yes we should"
+                submitter 'admin'
+                
+                parameters {
+			string(name:'Admin', defaultValue: 'admin')
+		}
+                }
+        steps {
+            
+            echo "Name: $NAME and location: $Location"
+        }        
+        }
+ 
+    }
+}

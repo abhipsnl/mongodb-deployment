@@ -10,17 +10,28 @@ pipeline {
             input {
                 message "Press okay to continue?"
                 ok "Yes we should"
-                submitter 'admin'
-                
-                parameters {
-			string(name:'Admin', defaultValue: 'admin')
-		}
+            }
+            steps {
+               echo "Name: $NAME and location: $Location"
+            }
+        }    
+        stage("Test") {
+          parallel {
+            stage("Test on Linux"){
+	    agent { label "linux" 
+              steps {
+                    echo "Running on Linux"
                 }
-        steps {
-            
-            echo "Name: $NAME and location: $Location"
-        }        
+		}
+             }
+            stage("Running on Windows") {
+	    agent { label "windows" 
+                steps {
+                    echo "Running on Windows"
+                }
+            }
+	    }
+            }
         }
- 
-    }
-}
+        }    
+}    
